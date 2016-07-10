@@ -3,4 +3,4 @@ Haskell practice problems.
 
 
 OUTSTANDING CHALLENGES:
-11 +
+11-13 re: encoding "aaabbbcddd" -> ((a, 3), (b, 3), c, (d, 3))
