@@ -10,8 +10,7 @@
  --
  -- NOTE: following works: list1 x = [x]; concatMap list1 [1..5]
 
-data Nlist a = Elem a | List a | Nlist a deriving (Show)
+import Data.Tree
 
-myFlat :: Nlist b -> [b]
-myFlat (Elem x) = [x]
-myFlat (List x) = concatMap myFlat x
+t = Node 1 [Node 2 [Node 3 []]]
+f = flatten t
