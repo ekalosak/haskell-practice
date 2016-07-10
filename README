@@ -5,8 +5,6 @@ Haskell practice problems.
 OUTSTANDING CHALLENGES:
 7: flatten nested lists
     The data type and function are written, but how to use them is occluded
-8: eliminate consecutive duplicates of list elements
-    e.g. 'aaabbbaaa' -> 'aba'
 9: pack consecutive duplicates of list elements into sublists
     e.g. 'aaabbbaaa' -> (('aaa'), ('bbb'), ('aaa'))
 10: runlenghts of char in string

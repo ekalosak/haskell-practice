@@ -1,5 +1,6 @@
 -- contigHead("aaabbbaaa") -> "aaa"
 -- chop("aaabbbaaa") -> "aaa", "bbbaaa"
+-- first((a, b)) -> a
 -- pack("aaabbbaaa") -> "aaa", "bbb", "aaa"
 
 contigHead :: [Char] -> [Char]
@@ -17,9 +18,13 @@ chop :: [Char] -> ([Char], [Char])
 chop str
     | length str == 0 = ("", "")
     | length str == 1 = (str, "")
-    | otherwise = ("foo", "bar")
+    | otherwise = (hs, ts)
+    where
+        hs = contigHead str
+        ts = drop (length hs) str
 
 pack :: [Char] -> [[Char]]
 pack str
-    | length str == 0 = [""]
-    | otherwise = [str]
+    | length str == 0 = []
+    | otherwise = [hs] ++ pack ts
+    where (hs, ts) = chop str
