@@ -1,0 +1,2 @@
+pack consecutive duplicates of list elements into sublists
+    e.g. 'aaabbbaaa' -> (('aaa'), ('bbb'), ('aaa'))
