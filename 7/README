@@ -1,3 +1,0 @@
-Flatten a nested list structure
-e.g.
-[a [b c] e] -> [a b c e]
