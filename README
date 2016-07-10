@@ -1,6 +1,6 @@
-This directory contains the practice scripts for https://wiki.haskell.org/99_questions/1_to_10
+This directory contains the practice scripts for https://wiki.haskell.org/99_questions
 Haskell practice problems.
-
 
 OUTSTANDING CHALLENGES:
 11-13 re: encoding "aaabbbcddd" -> ((a, 3), (b, 3), c, (d, 3))
+17: split "asdfqwer" 4 -> "asdf" "qwer"
