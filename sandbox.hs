@@ -86,3 +86,5 @@ caps :: String -> String
 caps "" = "Empty"
 caps all@(x:xs) = "First of " ++ all ++ " is " ++ show x
 
+concatMap (\c -> c + 1) [1..5]
+foldr (\c d -> c*d) 1 [1..5]
