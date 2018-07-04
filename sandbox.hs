@@ -80,4 +80,9 @@ ratio a b
 listfx :: (Show a) => [a] -> String
 listfx [] = "Empty"
 listfx (x:[]) = show x
+listfx (x:xs) = show x ++ " and more stuff"
+
+caps :: String -> String
+caps "" = "Empty"
+caps all@(x:xs) = "First of " ++ all ++ " is " ++ show x
 
