@@ -4,3 +4,6 @@ Haskell practice problems.
 OUTSTANDING CHALLENGES:
 11-13 re: encoding "aaabbbcddd" -> ((a, 3), (b, 3), c, (d, 3))
 17: split "asdfqwer" 4 -> "asdf" "qwer"
+
+COMPILE:
+ghc foo.hs -o foo
