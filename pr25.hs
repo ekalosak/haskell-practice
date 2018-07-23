@@ -12,10 +12,17 @@ r x y = getStdRandom $ randomR (x, y)
 rs :: Int -> Int -> Int -> IO [Int]
 rs x y n = replicateM n (r x y)
 
--- core functionality
-rp :: [a] -> IO [a]
-rp [] = return []
--- rp xs =
+-- tuple of random numbers in a range
+rt :: Int -> Int -> (IO Int, IO Int)
+rt x y = let t = rs x y 2 in
+    (fmap (\x -> x !! 0) t, fmap (\x -> x !! 1) t)
+
+-- -- core functionality: randomly permute two elements
+-- rp2 :: [a] -> IO [a]
+-- rp2 [] = return []
+-- rp2 xs =
+--     let ixs = rt 0 (length xs - 1)
+--     in fmap (\x -> perm xs (fst x) (snd x)) ixs
 
 -- pure function permuting elements n <-> m in list xs
 perm :: [a] -> Int -> Int -> [a]
