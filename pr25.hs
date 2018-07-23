@@ -15,13 +15,17 @@ rs x y n = replicateM n (r x y)
 -- core functionality
 rp :: [a] -> IO [a]
 rp [] = return []
-rp xs =
+-- rp xs =
 
 -- pure function permuting elements n <-> m in list xs
 perm :: [a] -> Int -> Int -> [a]
 perm xs n m =
     let
-        x1 == xs !! n
-        x2 == xs !! m
-        (xs1, xs2) = splitAt m xs
+        u = min n m
+        v = max n m
+        x1 = xs !! u
+        x2 = xs !! v
+        (xs1, xsr) = splitAt u xs
+        (xs2, xs3) = splitAt (v-u) xsr
     in
+        xs1 ++ [x2] ++ tail(xs2) ++ [x1] ++ tail(xs3)
