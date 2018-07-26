@@ -1,3 +1,4 @@
+module Pr33 (c) where
 import Pr32
 
 -- cop 4 6 -> True
