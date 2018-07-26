@@ -1,6 +1,6 @@
 -- pfacs 20 -> [2, 5]
 
-module Pr35 (pfacs', pfacs, unique) where
+module Pr35 (pfacs', pfacs, unique, primes) where
 import Pr31 -- isqrt, isprime
 import Pr33 -- c -- coprime
 import Pr32 -- g -- gcd
