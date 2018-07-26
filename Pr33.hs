@@ -18,4 +18,4 @@ import Pr32
 
 
 c :: Int -> Int -> Bool
-c a b = mygcd.g a b == 1
+c a b = Pr32.g a b == 1
