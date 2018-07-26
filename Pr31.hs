@@ -1,9 +1,6 @@
 -- isPrime 7 -> True
 
--- primes :: Int -> [Int]
--- primes 1 = []
--- primes 2 = [2]
--- primes n = [] -- CTN here
+module Pr31 (isqrt, isprime) where
 
 -- uses square root seive without memoization
 isprime :: Int -> Bool
