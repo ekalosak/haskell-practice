@@ -1,7 +1,7 @@
 -- gold 28 -> (5, 23)
 -- goldbach conjecture that all n > 2 is n = p + q for prime p, q; even n
 
-module Pr40 where
+module Pr40 (gold) where
 import Pr31
 import Pr35
 import Text.Printf
