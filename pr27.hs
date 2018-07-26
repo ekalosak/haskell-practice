@@ -1,27 +1,23 @@
 -- g [1, 2] "abc" -> [["a", "bc"], ["b", "ac"], ["c", "ab"]]
-
 g :: [Int] -> [a] -> [[[a]]]
 
 g [] _ = [[[]]]
 g _ [] = [[[]]]
-g [1] [x] = [[[x]]]
-g [1] (x:xs) = [[x]] : g [1] xs
-g [n] [x] = [[[]]] -- n > 1 by failure to match preceeding patern
+-- g ns xs = split ns (perm xs)
 
-g [n] (x:xs) -- subsets of size n from ys
-    | n > length ys     = [[[]]]
-    | n == length ys    = [[xs]]
-    | otherwise         =   -- n < length xs e.g. >>> g 2 "asdf"
-        -- h x (g [n-1] xs) ++ g [n] xs -- THIS is wrong
-    where ys = (x:xs)
+-- take e.g. 2 from list, then apply recursively to leftovers
 
--- -- h 'a' [["bc"], ["bd"]] -> [["a", "bc"], ["a", "bd"]]
--- h :: a -> [[[a]]] -> [[[a]]]
--- h _ [[[]]] = [[[]]]
--- h x [y] = [[x]:y]
--- h x [y:ys] = (h x [y]) ++ (h x [ys])
+-- h 2 "abc" -> ["ab" "c", "bc" leftovers, "ac" leftovers]
+h :: Int -> [a] -> [([a], [a])]
+h 0 _ = []
+h 1 (x:xs) = ([x], xs) : h 1
 
--- for all permutations up to equality within subset permutations, take 1 then 2
--- i.e. g [1,2] "abc" -> take 1 2 ["abc", "bac", "cab"]
--- g 2 "abc" -> ["ab", "bc", "ac"]
--- g 1 "abc" -> ["a", "b", "c"]
+-- splitAt 2 [1..5] -> [1,2] [3,4,5]
+
+-- get all ~permutations of base string
+-- for each of those, split at e.g. [1,2]
+
+-- perm :: [a] -> [[a]]
+-- perm [] = []
+-- perm [x] = [x]
+-- perm (x:xs) = 
