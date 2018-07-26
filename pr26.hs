@@ -7,9 +7,9 @@ c _ [] = [[]]
 c 1 [x] = [[x]]
 c 1 (x:xs) = [[x]] ++ (c 1 xs)
 c n (x:xs) =
-    if length xs > 0
+    if length xs > n-1
     then (h x (c (n-1) xs)) ++ (c n xs)
-    else (c (n-1) xs)
+    else (h x (c (n-1) xs))
 
 -- h 'a' ["bc", "cd", "bd"] -> ["abc", "acd", "abd"]
 h :: a -> [[a]] -> [[a]]
