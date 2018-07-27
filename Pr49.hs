@@ -4,4 +4,8 @@ import Control.Monad (replicateM)
 
 gray :: Int -> [[Char]]
 gray 0 = []
-gray n = replicateM n "01"
+gray 1 = ["0", "1"]
+gray n = [x++y | x <- gray 1, y <- gray (n-1)]
+
+--
+-- gray n = replicateM n "01"
