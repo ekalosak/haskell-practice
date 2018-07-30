@@ -27,6 +27,7 @@ bubble_map xs =
     in
         x1 : bubble_map (x2 : (tail . tail) xs)
 
+-- broken mergesort TODO: complete implementation
 merge_sort [] = []
 merge_sort [x] = [x]
 merge_sort [x, y] = merge ([x], [y])
