@@ -6,6 +6,14 @@
 
 huff :: Eq a => [a] -> [(a, [Char])]
 huff [] = []
+huff [x] = [(x, "0")]
+huff xs =
+    let
+        ys = countsorted xs
+        cs = fmap snd ys
+    in
+        
+    where countsorted = count . sort
 
 -- count "aaabbba" -> [('a', 3), ('b', 3), ('a', 1)]
 count :: Eq a => [a] -> [(a, Int)]
