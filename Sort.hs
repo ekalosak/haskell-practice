@@ -29,6 +29,18 @@ bubble_map xs =
 
 merge_sort [] = []
 merge_sort [x] = [x]
+merge_sort [x, y] = merge ([x], [y])
+merge_sort xs = (merge . (fmap merge_sort) . splitAt (div n 2)) xs
+    where n = length xs
+
+merge :: Ord a => ([a], [a]) -> [a]
+merge ([],  []) = []
+merge (xs,  []) = xs
+merge ([],  xs) = xs
+merge (xs,  ys) =
+    if (head xs) < (head ys)
+    then (head xs) : merge ((tail xs), ys)
+    else (head ys) : merge (xs, (tail ys))
 
 is_sorted :: Ord a => [a] -> Bool
 is_sorted [] = True
