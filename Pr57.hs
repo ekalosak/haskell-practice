@@ -2,7 +2,12 @@
 
 import Tree
 
-stree :: Eq a => [a] -> Tree a
+stree :: Ord a => [a] -> Tree a
 stree [] = Empty
 stree [x] = leaf x
-stree xs = TODO
+stree (x:xs) =
+    let
+        right = filter (>x) xs
+        left = filter (<=x) xs
+    in
+        Branch x (stree left) (stree right)
