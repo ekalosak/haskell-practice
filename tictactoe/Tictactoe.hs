@@ -3,38 +3,34 @@ module Tictactoe where
 import Data.Matrix
 
 data Player = X | O | E deriving (Show, Read, Eq)
--- data Spot = Player | Empty deriving (Eq)
--- data Board = Matrix Spot
 type Board = Matrix Player
-
--- show :: Spot a => a -> String
--- instance Show Spot where
-    -- -- show x = if x == Player then show x else "e"
-    -- show Empty = "e"
 
 dim = (3, 3) -- NOTE: This should be treated as hardcoded - the winchecking
             -- methods below rely on 3x3 board
 
--- board = fromList (fst dim) (snd dim) (iterate id Empty)
 board = fromList (fst dim) (snd dim) (iterate id E)
-
--- instance Matrix Board where
---     setElem b
 
 -- put (w) on (b) at (x, y)
 put :: Board -> (Int, Int) -> Player -> Board
 put b ix p = setElem p ix b
 
+full :: Board -> Bool
+full b = not . any (==E) $ b
+
 -- did player (p) win on board (b)?
-won, wonMainDiag, wonAltDiag, wonRows, wonCols :: Board -> Player -> Bool
-won b p = True
-
--- wonRow b p = or []
-
-wonMainDiag b p = all (==p) (getDiag b)
-wonMainDiag b p = all (==p) (getDiag b)
-
+won, wonMainDiag, wonAltDiag, wonRows, wonCols :: Player -> Board -> Bool
 -- TODO
-wonAltDiag _ _ = False
-wonRows _ _ = False
-wonCols _ _ = False
+winconds = [wonMainDiag, wonAltDiag, wonRows, wonCols]
+won p b = any (==True) [wincond p b | wincond <- winconds]
+
+wonMainDiag p b = all (==p) (getDiag b)
+wonAltDiag p b = ((wonMainDiag p) . (switchCols 1 3)) b
+wonRows p b = any (==True) [wonRow p b i | i <- [1..(fst dim)]]
+wonCols p b = any (==True) [wonCol p b i | i <- [1..(fst dim)]]
+
+wonRow p b i = all (==p) $ getRow i b
+wonCol p b i = all (==p) $ getCol i b
+
+getIndex inp = read inp :: (Int, Int)
+-- turn :: Board -> Player -> (Int, Int) -> Board
+-- turn b p ix =
