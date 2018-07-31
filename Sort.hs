@@ -64,3 +64,9 @@ is_sorted [x] = True
 is_sorted (x:xs) = and [x <= (head xs), is_sorted xs]
 
 quick_sort [] = []
+quick_sort [x] = [x]
+quick_sort (x:xs) =
+    let
+        smaller = filter (<=x) xs
+        larger = filter (>x) xs
+    in (quick_sort smaller) ++ [x] ++ (quick_sort larger)
