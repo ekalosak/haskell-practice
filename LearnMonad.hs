@@ -31,3 +31,20 @@ k xs = let s = sum xs in if s >= 10 then Just s else Nothing
 --             -- result gives Nothing
 --
 -- (h 6) >>= k -- h 6 gives Nothing so k bound to it should also give nothing
+
+-- import System.Random
+-- randomIO >>= (\x -> putStrLn (show x))
+
+-- https://wiki.haskell.org/Pronunciation
+
+-- Just 4 >> Just 3 -- gives Just 3
+
+list_id_functor = (:[]) -- maps e.g. 1 -> [1]
+-- concatMap list_id_functor [1..5] -- gives [1..5]
+-- concatMap (list_id_functor . head) [[1..4], [2..4], [3..4]] -> [1..3]
+xxs = [[1..3], [2..3], [3]]
+-- xs >>= (list_id_functor . head) -> [1..3]
+-- the monad under consideration here is the List monad over Num and List of Num
+-- function (list_id_functor . head) takes a List of List of Num and gives a
+-- singular List of Num. Bind maps that over the List of List of Num and
+-- concats.
