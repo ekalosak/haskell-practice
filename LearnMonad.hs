@@ -48,3 +48,11 @@ xxs = [[1..3], [2..3], [3]]
 -- function (list_id_functor . head) takes a List of List of Num and gives a
 -- singular List of Num. Bind maps that over the List of List of Num and
 -- concats.
+
+-- Just 4 >>= (\x -> Just (x + 3)) -> Just 7
+-- Nothing >>= (\x -> Just (x + 3)) -> Nothing
+
+-- i1 >> i1 = i1 >>= \_ -> i2
+-- from:
+-- http://hackage.haskell.org/package/base-4.11.1.0/docs/src/GHC.Base.html#>>
+-- under "class Applicative m => Monad m where"
