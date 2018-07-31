@@ -1,8 +1,9 @@
-module Sort (insertion_sort, bubble_sort, merge_sort) where
+module Sort (insertion_sort, bubble_sort, merge_sort, quick_sort) where
 
 import Debug.Trace
 
-insertion_sort, bubble_sort, merge_sort :: (Ord a, Show a) => [a] -> [a]
+quick_sort, insertion_sort, bubble_sort,
+    merge_sort :: (Ord a, Show a) => [a] -> [a]
 
 insertion_sort [] = []
 insertion_sort [x] = [x]
@@ -36,19 +37,30 @@ bubble_map xs =
 merge_sort [] = []
 merge_sort [x] = [x]
 merge_sort [x, y] = merge ([x], [y])
-merge_sort xs = (merge . (fmap merge_sort) . splitAt (div n 2)) xs
-    where n = length xs
+merge_sort xs =
+    let
+        n = length xs
+        xst = splitAt (div n 2) xs
+        result = merge $ tmap merge_sort xst
+    in
+        trace (show result) result
 
-merge :: Ord a => ([a], [a]) -> [a]
+merge :: (Ord a, Show a) => ([a], [a]) -> [a]
 merge ([],  []) = []
 merge (xs,  []) = xs
 merge ([],  xs) = xs
 merge (xs,  ys) =
-    if (head xs) < (head ys)
-    then (head xs) : merge ((tail xs), ys)
-    else (head ys) : merge (xs, (tail ys))
+    let result = if (head xs) < (head ys)
+        then (head xs) : merge ((tail xs), ys)
+        else (head ys) : merge (xs, (tail ys))
+    in trace (show result) result
+
+tmap :: (a -> b) -> (a, a) -> (b, b)
+tmap f xst = (f $ fst xst, f $ snd xst)
 
 is_sorted :: Ord a => [a] -> Bool
 is_sorted [] = True
 is_sorted [x] = True
 is_sorted (x:xs) = and [x <= (head xs), is_sorted xs]
+
+quick_sort [] = []
