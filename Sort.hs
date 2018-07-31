@@ -1,6 +1,8 @@
 module Sort (insertion_sort, bubble_sort, merge_sort) where
 
-insertion_sort, bubble_sort, merge_sort :: Ord a => [a] -> [a]
+import Debug.Trace
+
+insertion_sort, bubble_sort, merge_sort :: (Ord a, Show a) => [a] -> [a]
 
 insertion_sort [] = []
 insertion_sort [x] = [x]
@@ -17,15 +19,18 @@ bubble_sort xs =
     then xs
     else (bubble_sort . bubble_map) xs
 
-bubble_map :: Ord a => [a] -> [a]
+bubble_map :: (Ord a, Show a) => [a] -> [a]
 bubble_map [] = []
 bubble_map [x] = [x]
 bubble_map xs =
     let
         x1 = min (xs !! 0) (xs !! 1)
         x2 = max (xs !! 0) (xs !! 1)
+        rest = drop 2 xs
     in
-        x1 : bubble_map (x2 : (tail . tail) xs)
+        let result = x1 : bubble_map (x2 : rest) in
+        -- trace (show result) result
+        result
 
 -- broken mergesort TODO: complete implementation
 merge_sort [] = []
