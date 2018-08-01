@@ -44,8 +44,14 @@ boardOutIO = putStrLn . show
 playGame b = boardOutIO b >>
     putStrLn "Place your X with format: (Int,Int)" >>
     getUserIndex >>=
-    -- putStrLn . show >> -- debugging line
-    return . (\x -> put b x X) >>=
+    return . (\x -> put b x X) >>= -- returns Monad m :: m Board (IO Board)
+    -- TODO: check whether board is valid before updating
+    -- TODO: check whether anyone won
+    -- return $ (\b -> -- case b of
+    --     | won X b   -> strPutLn "X won!"    >> initial_board
+    --     | won O b   -> strPutLn "O won!"    >> initial_board
+    --     | otherwise ->                      >> b
+    -- ) >>=
     playGame
 
 -- main loop
