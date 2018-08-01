@@ -11,7 +11,7 @@ type Board = Matrix Player
 dim = (3, 3) -- NOTE: This should be treated as hardcoded - the winchecking
             -- methods below rely on 3x3 board
 
-board = fromList (fst dim) (snd dim) (iterate id E)
+initial_board = fromList (fst dim) (snd dim) (iterate id E)
 
 -- board status calculation subroutines
 -- put (w) on (b) at (x, y)
@@ -40,11 +40,13 @@ getIndex inp = read inp :: (Int, Int)
 getUserIndex = fmap getIndex getLine
 boardOutIO = putStrLn . show
 
--- main loop
-main = boardOutIO board >>
+-- main workhorse function
+playGame b = boardOutIO b >>
     putStrLn "Place your X with format: (Int,Int)" >>
     getUserIndex >>=
-    putStrLn . show >>
-    -- getUserIndex >>=
-    -- return . (\x -> put board x X) >>
-    main
+    -- putStrLn . show >> -- debugging line
+    return . (\x -> put b x X) >>=
+    playGame
+
+-- main loop
+main = playGame initial_board
