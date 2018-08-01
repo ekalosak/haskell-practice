@@ -56,3 +56,10 @@ xxs = [[1..3], [2..3], [3]]
 -- from:
 -- http://hackage.haskell.org/package/base-4.11.1.0/docs/src/GHC.Base.html#>>
 -- under "class Applicative m => Monad m where"
+
+-- guards for case statements
+f x | x < 0 = "less" | x > 0 = "more" | otherwise = "zero"
+f2 x
+    | x == 0 = "zero"
+    | x < 0  = "less"
+    | x > 0  = "more"
