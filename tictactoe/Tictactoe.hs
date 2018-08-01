@@ -1,6 +1,7 @@
 module Tictactoe where
 
 import Data.Matrix
+import Control.Monad
 
 data Player = X | O | E deriving (Show, Read, Eq)
 type Board = Matrix Player
@@ -32,5 +33,13 @@ wonRow p b i = all (==p) $ getRow i b
 wonCol p b i = all (==p) $ getCol i b
 
 getIndex inp = read inp :: (Int, Int)
--- turn :: Board -> Player -> (Int, Int) -> Board
--- turn b p ix =
+getUserIndex = fmap getIndex getLine
+
+boardOutIO = putStrLn . show
+main = boardOutIO board >>
+    putStrLn "Place your X with format: (Int,Int)" >>
+    getUserIndex >>=
+    putStrLn . show >>
+    -- getUserIndex >>=
+    -- return . (\x -> put board x X) >>
+    main
