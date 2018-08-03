@@ -2,6 +2,7 @@
 
 import Tree
 
+-- NOTE: this doesn't handle (==) conditions correctly
 stree :: Ord a => [a] -> Tree a
 stree [] = Empty
 stree [x] = leaf x
@@ -12,4 +13,10 @@ stree (x:xs) =
     in
         Branch x (stree left) (stree right)
 
--- NOTE: this doesn't handle (==) conditions correctly
+balt :: Tree a -> Bool
+balt Empty = True
+balt t = and [
+    ((depth . rchild) t) == ((depth . lchild) t),
+    (balt . rchild) t,
+    (balt . lchild) t
+    ]

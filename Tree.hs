@@ -1,4 +1,4 @@
-module Tree (Tree(Empty, Branch), leaf, lchild, rchild, value) where
+module Tree (Tree(Empty, Branch), leaf, lchild, rchild, value, depth) where
 
 -- source: 99 haskell problems
 data Tree a = Empty | Branch a (Tree a) (Tree a)
