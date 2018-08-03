@@ -1,11 +1,13 @@
 -- build a binary search tree
 
+module Pr57 (stree, balt) where
+
 import Tree
 
 -- NOTE: this doesn't handle (==) conditions correctly
 stree :: Ord a => [a] -> Tree a
 stree [] = Empty
-stree [x] = leaf x
+stree [x] = Leaf x
 stree (x:xs) =
     let
         right = filter (>x) xs
