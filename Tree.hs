@@ -18,3 +18,7 @@ lchild (Branch _ x _) = x
 
 value :: Tree a -> a
 value (Branch x _ _) = x
+
+depth :: Tree a -> Int
+depth Empty = 0
+depth (Branch x l r) = 1 + max (depth l) (depth r)
