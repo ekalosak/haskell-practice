@@ -11,3 +11,5 @@ stree (x:xs) =
         left = filter (<=x) xs
     in
         Branch x (stree left) (stree right)
+
+-- NOTE: this doesn't handle (==) conditions correctly
