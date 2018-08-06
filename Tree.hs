@@ -1,12 +1,12 @@
-module Tree (Tree(Empty, Branch), Leaf, lchild, rchild, value, depth) where
+module Tree (Tree(Empty, Branch), leaf, lchild, rchild, value, depth) where
 
 -- source: 99 haskell problems
 data Tree a = Empty | Branch a (Tree a) (Tree a)
               deriving (Show, Eq)
 
-Leaf x = Branch x Empty Empty
+leaf x = Branch x Empty Empty
 
--- tree_ex = Branch 1 (Leaf 2) Empty
+-- tree_ex = Branch 1 (leaf 2) Empty
 
 rchild, lchild :: Tree a -> Tree a
 

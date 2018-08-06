@@ -2,14 +2,18 @@
 -- using the "generate and test" paradigm
 -- i.e. propose all symmetric trees and check which ones are balanced
 
-import Trees
+import Tree (Tree(Empty, Branch), leaf, rchild, lchild)
 
-balsymts :: Int -> [Tree]
-balsymts n = filter balanced (symts n)
+bal_sym_trees :: Int -> [Tree]
+bal_sym_trees n = filter is_symmetric (all_trees n)
 
-balanced :: Tree -> Bool
-balanced = balt -- just a synonym for a function in module Pr57
+is_symmetric :: Tree -> Bool
+is_symmetric Empty = True
+is_symmetric Branch x lc rc = (rc == mirror_tree lc)
 
-symts :: Int -> [Tree]
-symts 0 = []
-symts 1 = 
+mirror_tree :: Tree -> Tree
+mirror_tree Empty = Empty
+mirror_tree Branch x lc rc = Branch x (mirror_tree rc) (mirror_tree lc)
+
+all_trees :: Int -> [Tree]
+all_trees 0 = []
