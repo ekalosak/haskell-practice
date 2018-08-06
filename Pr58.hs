@@ -27,7 +27,7 @@ mirror_tree Empty = Empty
 mirror_tree (Branch x lc rc) = Branch x (mirror_tree rc) (mirror_tree lc)
 
 all_trees :: Int -> a -> [Tree a]
-all_trees 0 _ = []
+all_trees 0 _ = [Empty]
 all_trees 1 x = [leaf x]
 all_trees n x = [Branch x t1 t2 | (l1, l2) <- all_splits (n-1),
     t1 <- (all_trees l1 x),
