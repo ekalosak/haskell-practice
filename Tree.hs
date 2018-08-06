@@ -2,7 +2,20 @@ module Tree (Tree(Empty, Branch), leaf, lchild, rchild, value, depth) where
 
 -- source: 99 haskell problems
 data Tree a = Empty | Branch a (Tree a) (Tree a)
-              deriving (Show, Eq)
+              deriving (Show)
+
+-- -- leaf 'x' == leaf 'y' i.e. (==) respects only structure
+-- instance Eq (Tree a) where
+--     Empty == Empty = True
+--     Branch x lc rc == Branch x2 lc2 rc2 = (and [lc == lc2, rc == rc2])
+--     _ == _ = False
+
+-- leaf 'x' == leaf 'x' i.e. force value equality testing when possible
+instance Eq a => Eq (Tree a) where
+    Empty == Empty = True
+    Branch x lc rc == Branch x2 lc2 rc2 =
+        (and [x == x2, lc == lc2, rc == rc2])
+    _ == _ = False
 
 leaf x = Branch x Empty Empty
 
