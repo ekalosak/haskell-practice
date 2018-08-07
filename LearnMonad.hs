@@ -63,3 +63,6 @@ f2 x
     | x == 0 = "zero"
     | x < 0  = "less"
     | x > 0  = "more"
+
+(+2) <$> [1..5] -- (<$>) :: Functor f => (a->b) -> f a -> f b
+[(+1), (+10)] <*> [1..5] -- (<*>) :: Applicative f => f (a->b) -> f a -> f b
