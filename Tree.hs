@@ -1,4 +1,5 @@
-module Tree (Tree(Empty, Branch), leaf, lchild, rchild, value, depth, nnodes) where
+module Tree (Tree(Empty, Branch),
+    leaf, lchild, rchild, value, depth, nnodes, nodes, children, is_leaf) where
 
 -- source: 99 haskell problems
 data Tree a = Empty | Branch a (Tree a) (Tree a)
@@ -14,6 +15,10 @@ instance Show a => Show (Tree a) where
     show Empty = "Empty"
     show (Branch x Empty Empty) = "leaf " ++ show x
     show (Branch x lc rc) = show x ++ "(" ++ show lc ++ "," ++ show rc ++ ")"
+
+nodes :: Tree a -> [Tree a]
+nodes Empty = []
+nodes tr = tr:((nodes $ lchild tr) ++ (nodes $ rchild tr))
 
 -- -- leaf 'x' == leaf 'x' i.e. force value equality testing when possible
 -- instance Eq a => Eq (Tree a) where
@@ -47,3 +52,12 @@ depth (Branch x l r) = 1 + max (depth l) (depth r)
 nnodes :: Tree a -> Int
 nnodes Empty = 0
 nnodes (Branch _ lc rc) = 1 + (nnodes lc) + (nnodes rc)
+
+children :: Tree a -> [Tree a]
+children Empty = []
+children (Branch _ lc rc) = [lc, rc]
+
+is_leaf :: Tree a -> Bool
+-- is_leaf = and . (==Empty) <$> children
+is_leaf (Branch _ Empty Empty) = True
+is_leaf _ = False
