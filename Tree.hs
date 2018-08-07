@@ -1,4 +1,4 @@
-module Tree (Tree(Empty, Branch), leaf, lchild, rchild, value, depth) where
+module Tree (Tree(Empty, Branch), leaf, lchild, rchild, value, depth, nnodes) where
 
 -- source: 99 haskell problems
 data Tree a = Empty | Branch a (Tree a) (Tree a)
@@ -35,3 +35,10 @@ value (Branch x _ _) = x
 depth :: Tree a -> Int
 depth Empty = 0
 depth (Branch x l r) = 1 + max (depth l) (depth r)
+
+-- children :: Tree a -> [Tree a]
+-- children = <*> [lchild, rchild]
+
+nnodes :: Tree a -> Int
+nnodes Empty = 0
+nnodes (Branch _ lc rc) = 1 + (nnodes lc) + (nnodes rc)
