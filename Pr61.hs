@@ -19,3 +19,6 @@ is_leaf :: Tree a -> Bool
 -- is_leaf = and . (==Empty) <$> children
 is_leaf (Branch _ Empty Empty) = True
 is_leaf _ = False
+
+get_leaves :: Tree a -> [Tree a]
+get_leaves = filter is_leaf . nodes
