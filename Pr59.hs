@@ -1,6 +1,6 @@
 -- hbal n x -> Tree where each node has property depth lc - depth rc <= 1
 
-module Pr59 where
+module Pr59 (is_hbal, hbal) where
 
 import Tree -- depth, Tree(Branch, Empty)
 import Pr58 -- all_trees
