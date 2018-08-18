@@ -1,41 +1,41 @@
 -- construct complete binary tree with k nodes
 -- i.e. each level is filled before subsequent level is inserted into
+-- and bottom depth is left adjusted
 
 module Pr63 where
 import Tree(Tree(Branch, Empty), leaf, depth, lchild, rchild)
 
 -- NOTE: THIS solution does not work
 
-cbt :: Integral a => a -> b -> Tree b
+cbt :: Int -> a -> Tree a
 cbt 0 _ = Empty
-cbt n x = insert x (cbt (n-1) x)
+cbt n x = ins x $ cbt (n-1) x
 
-insert :: a -> Tree a -> Tree a
-insert x Empty = leaf x
-insert x (Branch y lc rc)
-    | dl < dr
-    | and [is_bal lc, is_bal rc] =
-        Branch y (insert x lc) rc
-    | and [is_bal lc, not . is_bal $ rc] =
-        Branch y lc (insert x rc)
-    | and [not . is_bal $ lc, is_bal rc] =
-        Branch y lc (insert x rc)
+-- nodes at depth h have 2^(h-1) nodes
+-- e.g. depth 1 has 1, d 2 has 2, 3 -> 4, 4 -> 8, etc
+-- recursive def'n will split
+
+-- tp = [2^n | n <- [1..]]
+
+-- -- get biggest power of 2 less than or equal to n
+-- f :: Int -> Int
+-- f n = (head $ filter (>n) tp) `div` 2
+
+ins :: a -> Tree a -> Tree a
+ins x Empty = leaf x
+ins x (Branch y lc rc)
+    | ml == mr  = (Branch y (ins x lc) rc)
+    | otherwise = (Branch y lc (ins x rc))
     where
-        dl = depth lc
-        dr = depth rc
+        ml = min_depth lc
+        mr = min_depth rc
 
-is_bal :: Tree a -> Bool
-is_bal Empty = True
-is_bal (Branch x lc rc) = and [
-        depth lc - depth rc == 0,
-        is_bal rc, is_bal lc
-    ]
+-- minimum depth of leaves in a tree
+min_depth :: Tree a -> Int
+min_depth Empty = 0
+min_depth (Branch x lc rc) = 1 + (min (min_depth lc) (min_depth rc))
 
-is_alm_bal :: Tree a -> Bool
-is_alm_bal Empty = True
--- fails to check that lc is full before inserting into rc
-is_alm_bal (Branch x lc rc) = and [
-        abs (depth lc - depth rc) <= 1,
-        is_alm_bal lc,
-        is_alm_bal rc
-    ]
+-- whether tree is completely balanced i.e. all subtree depths are ==
+is_full :: Tree a -> Bool
+is_full Empty = True
+is_full (Branch _ lc rc) = and [is_full lc, is_full rc, depth lc == depth rc]
