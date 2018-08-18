@@ -2,7 +2,7 @@
 -- i.e. each level is filled before subsequent level is inserted into
 -- and bottom depth is left adjusted
 
-module Pr63 where
+module Pr63 (cbt) where
 import Tree(Tree(Branch, Empty), leaf, depth, lchild, rchild, min_depth)
 
 -- NOTE: THIS solution does not work
