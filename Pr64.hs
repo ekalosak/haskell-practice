@@ -1,7 +1,7 @@
 -- prepare tree drawing layout
 -- xy of lc is lower and to left of parent and to left of all rc's children
 
-module Pr64 (lay) where
+module Pr64 (layout) where
 import Tree(Tree(Branch, Empty), leaf, depth, min_depth, nnodes)
 
 -- -- external use function
