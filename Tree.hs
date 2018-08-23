@@ -72,3 +72,8 @@ is_full (Branch _ lc rc) = and [is_full lc, is_full rc, depth lc == depth rc]
 min_depth :: Tree a -> Int
 min_depth Empty = 0
 min_depth (Branch x lc rc) = 1 + (min (min_depth lc) (min_depth rc))
+--
+-- width of a tree is just the number of nodes in it for this layout
+width :: Tree a -> Int
+width = nnodes
+
