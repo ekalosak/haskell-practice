@@ -66,3 +66,9 @@ f2 x
 
 (+2) <$> [1..5] -- (<$>) :: Functor f => (a->b) -> f a -> f b
 [(+1), (+10)] <*> [1..5] -- (<*>) :: Applicative f => f (a->b) -> f a -> f b
+
+-- getName, when executed, will say hello, get a name, and repeat that name
+getName = putStrLn "hello" >> getLine >>= (\x -> putStrLn $ "hello " ++ x)
+
+-- execute repeatMe, then type "asdf"
+repeatMe = (readLn :: IO String) >>= print
