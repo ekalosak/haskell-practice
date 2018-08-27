@@ -2,18 +2,29 @@
 
 -- module Pr65 (layout) where
 module Pr65 where
-import Tree(Tree(Branch, Empty), leaf, depth, lchild)
+import Tree(Tree(Branch, Empty), leaf, depth, lchild, value)
 
--- -- external use function
--- layout :: Tree a -> Tree (a, (Int, Int))
--- layout = (\t -> lay (getrootyx t) t)
+-- external use function
 
-getrootyx :: Tree a -> (Int, Int)
-getrootyx t = (depth t, 2^((getlwidth t) - 1))
+layout :: Tree a -> Tree ((Int, Int), a)
+layout Empty = Empty
 
-getlwidth :: Tree a -> Int
-getlwidth Empty = 0
-getlwidth t = 2^(depth t - 1) + (getlwidth (lchild t))
+layroot :: Tree a -> Tree ((Int, Int), a)
+layroot Empty = Empty
+layroot (Branch x lc rc) = let rd = depth (Branch x lc rc) in
+                            (Branch
+                                ((1, w), x)
+                                (layleft lc 1 w rd)
+                                (layright rc 1 w rd)
+                            )
+
+-- layleft lc pary parx rootdepth
+layleft :: Tree a -> Int -> Int -> Int -> Tree ((Int, Int), a)
+layleft Empty _ _ _ = Empty
+layleft lc py px rd = (Branch
+                        ((py + 1, px - 2^(rd-py)), value lc)
+                        (layleft (lchild lc) )
+                    )
 
 test_tree =
     Branch 'x'
