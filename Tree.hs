@@ -1,5 +1,6 @@
 module Tree (Tree(Empty, Branch),
-    leaf, lchild, rchild, value, depth, nnodes, nodes, children, is_leaf) where
+    leaf, lchild, rchild, value, depth, nnodes, nodes, children, is_leaf,
+    is_full, min_depth) where
 
 -- source: 99 haskell problems
 data Tree a = Empty | Branch a (Tree a) (Tree a)
@@ -61,3 +62,18 @@ is_leaf :: Tree a -> Bool
 -- is_leaf = and . (==Empty) <$> children
 is_leaf (Branch _ Empty Empty) = True
 is_leaf _ = False
+
+-- whether tree is completely balanced i.e. all subtree depths are ==
+is_full :: Tree a -> Bool
+is_full Empty = True
+is_full (Branch _ lc rc) = and [is_full lc, is_full rc, depth lc == depth rc]
+
+-- minimum depth of leaves in a tree
+min_depth :: Tree a -> Int
+min_depth Empty = 0
+min_depth (Branch x lc rc) = 1 + (min (min_depth lc) (min_depth rc))
+--
+-- width of a tree is just the number of nodes in it for this layout
+width :: Tree a -> Int
+width = nnodes
+
