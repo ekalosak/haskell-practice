@@ -8,23 +8,36 @@ import Tree(Tree(Branch, Empty), leaf, depth, lchild, value)
 
 layout :: Tree a -> Tree ((Int, Int), a)
 layout Empty = Empty
+layout t = revheight 1 (laywidthroot (layheight t) 0)
 
-layroot :: Tree a -> Tree ((Int, Int), a)
-layroot Empty = Empty
-layroot (Branch x lc rc) = let rd = depth (Branch x lc rc) in
-                            (Branch
-                                ((1, w), x)
-                                (layleft lc 1 w rd)
-                                (layright rc 1 w rd)
-                            )
+revheight :: Int -> Tree ((Int, Int), a) -> Tree ((Int, Int), a)
+revheight _ Empty = Empty
+revheight ph (Branch ((h, w), x) lc rc) =
+    (Branch ((ph, w), x) (revheight (ph+1) lc) (revheight (ph+1) rc))
 
--- layleft lc pary parx rootdepth
-layleft :: Tree a -> Int -> Int -> Int -> Tree ((Int, Int), a)
-layleft Empty _ _ _ = Empty
-layleft lc py px rd = (Branch
-                        ((py + 1, px - 2^(rd-py)), value lc)
-                        (layleft (lchild lc) )
-                    )
+layheight :: Tree a -> Tree (Int, a)
+layheight Empty = Empty
+layheight (Branch x lc rc) =
+    let m = max (depth lc) (depth rc) in
+    (Branch (m, x) (layheight lc) (layheight rc))
+
+laywidthroot :: Tree (Int, a) -> Int -> Tree ((Int, Int), a)
+laywidthroot Empty _ = Empty
+laywidthroot (Branch (h, x) lc rc) p =
+    let pw = 2^h in
+    (Branch ((h, pw), x) (laywidthl lc pw) (laywidthr rc pw))
+
+laywidthl :: Tree (Int, a) -> Int -> Tree ((Int, Int), a)
+laywidthl Empty _ = Empty
+laywidthl (Branch (h, x) lc rc) p =
+    let pw = p - 2^h in
+    (Branch ((h, pw), x) (laywidthl lc pw) (laywidthr rc pw))
+
+laywidthr :: Tree (Int, a) -> Int -> Tree ((Int, Int), a)
+laywidthr Empty _ = Empty
+laywidthr (Branch (h, x) lc rc) p =
+    let pw = p + 2^h in
+    (Branch ((h, pw), x) (laywidthl lc pw) (laywidthr rc pw))
 
 test_tree =
     Branch 'x'
@@ -34,4 +47,4 @@ test_tree =
         (Branch 'z'
             (leaf 'a')
             (leaf 'b'))
--- *Pr64> layout test_tree
+-- *Pr65> layout test_tree
