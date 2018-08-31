@@ -10,6 +10,8 @@ layout :: Tree a -> Tree ((Int, Int), a)
 layout Empty = Empty
 layout t = revheight 1 (laywidthroot (layheight t) 0)
 
+-- helper methods
+
 revheight :: Int -> Tree ((Int, Int), a) -> Tree ((Int, Int), a)
 revheight _ Empty = Empty
 revheight ph (Branch ((h, w), x) lc rc) =
