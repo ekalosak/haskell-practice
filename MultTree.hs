@@ -17,6 +17,13 @@ sum1 xs = 1 + sum xs
 children :: Tree a -> [Tree a]
 children (Node x xs) = xs
 
+-- internal path length is the sum of lengths of paths to root from each node
+ipl :: Tree a -> Int
+ipl = iplh 0
+
+iplh :: Int -> Tree a -> Int
+iplh d (Node x xs) = d + sum (map (iplh (d+1)) xs)
+
 -- test tree source: https://wiki.haskell.org/99_questions/70B_to_73
 -- under problem 70B
 test_tree = Node 'a' [
