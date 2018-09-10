@@ -1,6 +1,6 @@
 module Tree (Tree(Empty, Branch),
     leaf, lchild, rchild, value, depth, nnodes, nodes, children, is_leaf,
-    is_full, min_depth) where
+    is_full, min_depth, empty) where
 
 -- source: 99 haskell problems
 data Tree a = Empty | Branch a (Tree a) (Tree a)
@@ -16,6 +16,10 @@ instance Show a => Show (Tree a) where
     show Empty = "Empty"
     show (Branch x Empty Empty) = "leaf " ++ show x
     show (Branch x lc rc) = show x ++ "(" ++ show lc ++ "," ++ show rc ++ ")"
+
+empty :: Tree a -> Bool
+empty Empty = True
+empty _ = False
 
 nodes :: Tree a -> [Tree a]
 nodes Empty = []
