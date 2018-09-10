@@ -19,7 +19,7 @@ finaladj = finalyadjust . finalxadjust
 -- move y so that miny is 1
 finalyadjust :: Tree ((Int, Int), a) -> Tree ((Int, Int), a)
 finalyadjust Empty = Empty
-finalyadjust tr = adjy 1 tr
+finalyadjust tr = adjy 0 tr
 
 -- move x so that minx is 1
 finalxadjust :: Tree ((Int, Int), a) -> Tree ((Int, Int), a)
@@ -36,7 +36,7 @@ minxth (Branch ((x, y), k) lc rc) = x:((minxth lc) ++ (minxth rc))
 adjx :: Int -> Tree ((Int, Int), a) -> Tree ((Int, Int), a)
 adjx _ Empty = Empty
 adjx d (Branch ((x, y), k) lc rc) =
-    (Branch ((x+d, y), k) (adjx d lc) (adjx d rc))
+    (Branch ((x-d, y), k) (adjx d lc) (adjx d rc))
 
 adjy :: Int -> Tree ((Int, Int), a) -> Tree ((Int, Int), a)
 adjy _ Empty = Empty
