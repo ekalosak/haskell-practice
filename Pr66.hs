@@ -8,12 +8,27 @@ import Tree(Tree(Branch, Empty), leaf, depth, lchild, value)
 layout :: Tree a -> Tree ((Int, Int), a)
 layout Empty = Empty
 
--- y layout helper function (takes tree and parent depth)
+-- Strategy:
+-- 1. initialize x and y values
+-- 2. look for conflicts in locations
+-- 3. adjust conflicts' x values at deepest common parent
+
+-- layout the y values
 layy = layyh 0
+
+-- y layout helper function (takes tree and parent depth)
 layyh :: Int -> Tree a -> Tree (Int, a)
 layyh _ Empty = Empty
 layyh pd (Branch x lc rc) = let d = pd + 1 in
     Branch (d, x) (layyh d lc) (layyh d rc)
+
+tolist :: Tree a -> [a]
+tolist Empty = []
+tolist (Branch x lc rc) = x:((tolist lc) ++ (tolist rc))
+
+-- initialize x value
+-- layxinit = layxinith 0
+-- layxinith :: Int -
 
 test_tree =
     Branch 'n'
