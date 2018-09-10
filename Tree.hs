@@ -1,6 +1,6 @@
 module Tree (Tree(Empty, Branch),
     leaf, lchild, rchild, value, depth, nnodes, nodes, children, is_leaf,
-    is_full, min_depth, empty) where
+    is_full, min_depth, empty, test_tree) where
 
 -- source: 99 haskell problems
 data Tree a = Empty | Branch a (Tree a) (Tree a)
@@ -81,3 +81,18 @@ min_depth (Branch x lc rc) = 1 + (min (min_depth lc) (min_depth rc))
 width :: Tree a -> Int
 width = nnodes
 
+test_tree =
+    Branch 'n'
+        (Branch 'k'
+            (Branch 'c'
+                (leaf 'a')
+                (Branch 'e'
+                    (leaf 'd')
+                    (leaf 'g')
+                ))
+            (leaf 'm'))
+        (Branch 'u'
+            (Branch 'p'
+                Empty
+                (leaf 'q'))
+            Empty)

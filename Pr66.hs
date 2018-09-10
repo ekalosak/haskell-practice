@@ -1,7 +1,8 @@
 -- compressed neighbors in layout
 
 module Pr66 (layout) where
-import Tree(Tree(Branch, Empty), leaf, depth, rchild, lchild, value, empty)
+import Tree(Tree(Branch, Empty), leaf, depth, rchild, lchild, value, empty,
+    test_tree)
 
 -- Strategy:
 -- 1. initialize x and y values
@@ -105,19 +106,4 @@ layxinith x (Branch (y, k) lc rc) =
     (Branch ((x, y), k) (layxinith (x-1) lc) (layxinith (x+1) rc))
 
 -- *Pr66> layout test_tree
-test_tree =
-    Branch 'n'
-        (Branch 'k'
-            (Branch 'c'
-                (leaf 'a')
-                (Branch 'e'
-                    (leaf 'd')
-                    (leaf 'g')
-                ))
-            (leaf 'm'))
-        (Branch 'u'
-            (Branch 'p'
-                Empty
-                (leaf 'q'))
-            Empty)
 t = initlayout test_tree
