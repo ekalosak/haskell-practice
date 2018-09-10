@@ -9,3 +9,20 @@ layout :: Tree a -> Tree ((Int, Int), a)
 layout Empty = Empty
 
 
+test_tree =
+    Branch 'n'
+        (Branch 'k'
+            (Branch 'c'
+                (leaf 'a')
+                (Branch 'e'
+                    (leaf 'd')
+                    (leaf 'g')
+                ))
+            (leaf 'm'))
+        (Branch 'u'
+            (Branch 'p'
+                Empty
+                (leaf 'q'))
+            Empty)
+
+-- *Pr66> layout test_tree
