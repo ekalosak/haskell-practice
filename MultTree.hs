@@ -32,5 +32,12 @@ test_tree = Node 'a' [
                 Node 'b' [Node 'd' [], Node 'e' []]
                 ]
 
+bottom_up :: Tree a -> [a]
+bottom_up (Node x xs) = (flatten $ map bottom_up xs) ++ [x]
+
+flatten :: [[a]] -> [a]
+flatten [] = []
+flatten (x:xs) = x ++ flatten xs
+
 -- instance Show a => Show (Tree a) where
 --     show (Node x xs) = x ++ "\n" ++ (flatten $ map show xs)
