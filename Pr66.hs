@@ -27,8 +27,11 @@ tolist Empty = []
 tolist (Branch x lc rc) = x:((tolist lc) ++ (tolist rc))
 
 -- initialize x value
--- layxinit = layxinith 0
--- layxinith :: Int -
+layxinit = layxinith 0
+layxinith :: Int -> Tree (Int, a) -> Tree ((Int, Int), a)
+layxinith _ Empty = Empty
+layxinith x (Branch (y, k) lc rc) =
+    (Branch ((x, y), k) (layxinith (x-1) lc) (layxinith (x+1) rc))
 
 test_tree =
     Branch 'n'
