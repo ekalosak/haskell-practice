@@ -4,6 +4,7 @@ module Graph (GraphG, GraphE, GraphA, Node, unique) where
 data Node a = Node a deriving Eq
 data Edge a = Edge (Node a, Node a)
 data Arc a = Arc (Node a, Node a, Int) deriving Eq
+data Path a = Path [Node a] deriving (Show, Eq)
 -- graph-term form
 data GraphG a = GraphG [Node a] [Edge a] deriving Eq
 -- edge-term form
@@ -113,9 +114,9 @@ uniqueEdgesA (e:es) =
     else e:ues
     where ues = uniqueEdgesA es
 
-extract_nodes :: [Edge a] -> [Node a]
-extract_nodes [] = []
-extract_nodes edges = flatten $ map (\t -> [inco t, outg t]) edges
+extract_nodes :: Eq a => [Edge a] -> [Node a]
+-- extract_nodes [] = []
+extract_nodes = unique . flatten . map (\t -> [inco t, outg t])
 
 flatten :: [[a]] -> [a]
 flatten [] = []
