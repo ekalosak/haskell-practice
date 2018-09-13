@@ -3,12 +3,14 @@ module Graph (GraphG, GraphE, GraphA, Node, unique) where
 -- -- DATA CONSTRUCTORS
 data Node a = Node a deriving Eq
 data Edge a = Edge (Node a, Node a)
+data Arc a = Arc (Node a, Node a, Int) deriving Eq
 -- graph-term form
 data GraphG a = GraphG [Node a] [Edge a] deriving Eq
 -- edge-term form
 data GraphE a = GraphE [Edge a] deriving Eq
 -- adjacency form
 data GraphA a = GraphA [(Node a, [Node a])] deriving Eq
+data GraphC a = GraphC [Node a] [Arc a] deriving Eq
 
 -- TODO: validation functions for these forms
 
@@ -22,6 +24,15 @@ instance Eq a => Eq (Edge a) where
             && outg x == outg y) ||
         (inco x == outg y
             && outg x == inco y)) then True else False
+
+instance Show a => Show (Arc a) where
+    show (Arc (Node x, Node y, d)) =
+        "<" ++ show x ++ "," ++ show y ++ "," ++ show d ++ ">"
+
+
+instance Show a => Show (GraphC a) where
+    show (GraphC nodes arcs) = "GraphC: \n\t" ++
+        "Nodes: " ++ show nodes ++ "\n\tArcs: " ++ show arcs
 
 instance Show a => Show (GraphG a) where
     show (GraphG nodes edges) = "GraphG: \n\t" ++
@@ -128,3 +139,10 @@ e = es !! 1
 gg = GraphG ns es
 ga = convert_gtoa gg
 ge = convert_gtoe gg
+
+m = Node 'm'
+q = Node 'q'
+p = Node 'p'
+nsc = [m, p, q, k]
+arcs = [Arc a | a <- [(p, m, 5), (m, q, 7), (p, q, 9)]]
+gc = GraphC nsc arcs
