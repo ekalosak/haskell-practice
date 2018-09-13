@@ -74,13 +74,13 @@ outg :: Edge a -> Node a
 outg (Edge (nx, ny)) = nx
 
 edgecomp :: (Eq a, Show a) => Edge a -> Node a -> Node a
-edgecomp t n
-    | n == inco t   = outg t
-    | n == outg t   = inco t
+edgecomp e n
+    | n == inco e   = outg e
+    | n == outg e   = inco e
     | otherwise     = -- error "tuple does not contain node"
-        error ("<" ++ show t ++ "> does not contain <" ++ show n ++ ">")
+        error ("<" ++ show e ++ "> does not contain <" ++ show n ++ ">")
 
-edgecontains :: (Eq a, Show a) => Edge a -> Node a -> Bool
+edgecontains :: (Eq a) => Edge a -> Node a -> Bool
 edgecontains e n
     | n == inco e   = True
     | n == outg e   = True
@@ -101,6 +101,32 @@ edgesA (GraphA ncs) = uniqueEdgesA $ flatten
     [[Edge (fst nc, ne) | ne <- snd nc] | nc <- ncs]
 edgesA_nonEq :: GraphA a -> [Edge a]
 edgesA_nonEq = edgeAhelper
+
+-- calculate paths in a GraphG
+paths :: Node a -> Node a -> GraphG a -> [Path a]
+-- paths = error "Not implemented"
+paths n1 n2 (GraphG nodes edges) = let pps = initpospath b gg in
+    -- TODO 
+
+-- pospath [[a] | a <- getadjnodes b gg] gg
+
+initpospath :: (Eq a, Show a) => Node a -> GraphG a -> [[Node a]]
+initpospath n g = [[a, n] | a <- getadjnodes n g]
+
+getadjnodes :: (Eq a, Show a) => Node a -> GraphG a -> [Node a]
+getadjnodes n g = [edgecomp e n | e <- edgesG g, edgecontains e n]
+
+pospath :: (Eq a, Show a) => [[Node a]] -> GraphG a -> [[Node a]]
+pospath pps g = [n:pp | pp <- pps,
+                        n <- getadjnodes (head pp) g,
+                        not (elem n pp)]
+
+-- <snd result> are complete paths, <fst result> are not yet complete
+complpathssplit :: (Eq a, Show a) => [[Node a]] -> Node a ->
+                                    ([[Node a]], [[Node a]])
+complpathssplit pps n = ([pp | pp <- pps, (head pp) == n],
+                        [pp | pp <-pps, (head pp) /= n])
+
 
 -- helpers
 edgeAhelper :: GraphA a -> [Edge a]
