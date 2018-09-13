@@ -2,15 +2,14 @@ module Graph (GraphG, GraphE, GraphA, Node, unique) where
 
 -- -- DATA CONSTRUCTORS
 data Node a = Node a deriving Eq
-data Edge a = Edge (Node a, Node a) deriving Eq
+data Edge a = Edge (Node a, Node a)
 -- graph-term form
--- data GraphG a = GraphG [Node a] [(Node a, Node a)] deriving Eq
 data GraphG a = GraphG [Node a] [Edge a] deriving Eq
 -- edge-term form
--- data GraphE a = GraphE [(Node a, Node a)] deriving Eq
 data GraphE a = GraphE [Edge a] deriving Eq
 -- adjacency form
 data GraphA a = GraphA [(Node a, [Node a])] deriving Eq
+
 -- TODO: convert between GraphA and the other two
 -- TODO: validation functions for these forms
 
@@ -19,6 +18,11 @@ instance Show a => Show (Node a) where
 
 instance Show a => Show (Edge a) where
     show (Edge (Node x, Node y)) = "<" ++ show x ++ "," ++ show y ++ ">"
+instance Eq a => Eq (Edge a) where
+    (==) x y = if ((inco x == inco y
+            && outg x == outg y) ||
+        (inco x == outg y
+            && outg x == inco y)) then True else False
 
 instance Show a => Show (GraphG a) where
     show (GraphG nodes edges) = "GraphG: \n\t" ++
@@ -70,11 +74,22 @@ edgecontains e n
 -- basic functionality
 nodesG :: GraphG a -> [Node a]
 nodesG (GraphG ns es) = ns
-
 edgesG :: GraphG a -> [Edge a]
 edgesG (GraphG ns es) = es
 
+-- nodeconsA :: GraphA a -> [(Node a, [Node a])]
+-- nodeconsA (GraphA ncs) = ncs
+nodesA :: GraphA a -> [Node a]
+nodesA (GraphA ncs) = [fst x | x <- ncs]
+-- edgesA :: GraphA a -> [Edge a]
+-- edgesA (GraphA ncs) = uniqueEdgesA $ flatten
+--     [[Edge (fst nc, ne) | ne <- snd nc] | nc <- ncs]
+
 -- helpers
+-- uniqueEdgesA :: [Edge a] -> [Edge a]
+-- uniqueEdgesA (e:es) =
+--     if 
+
 extract_nodes :: [Edge a] -> [Node a]
 extract_nodes [] = []
 extract_nodes edges = flatten $ map (\t -> [inco t, outg t]) edges
@@ -97,4 +112,6 @@ h = Node 'h'
 k = Node 'k'
 ns = [b, c, d, f, g, h, k]
 es = [Edge e | e <- [(g, h), (b, c), (b, f), (c, f), (f, k)]]
-gr = GraphG ns es
+gg = GraphG ns es
+ga = convert_gtoa gg
+ge = convert_gtoe gg
