@@ -1,4 +1,4 @@
-module GraphG (GraphG, Node, unique) where
+module Graph (GraphG, GraphE, GraphA, Node, unique) where
 
 -- -- DATA CONSTRUCTORS
 data Node a = Node a deriving Eq
@@ -7,9 +7,10 @@ data GraphG a = GraphG [Node a] [(Node a, Node a)] deriving Eq
 -- edge-term form
 data GraphE a = GraphE [(Node a, Node a)] deriving (Show, Eq)
 -- adjacency form
-data GraphA a = GraphA [(Node a, [Node a])] -- list of (node, connected nodes)
+data GraphA a = GraphA [(Node a, [Node a])] deriving (Show, Eq)
 -- TODO: convert between GraphA and the other two
 -- TODO: validation functions for these forms
+-- TODO: instance show (GraphE, GraphA)
 
 instance Show a => Show (Node a) where
     show (Node x) = show x
@@ -27,6 +28,24 @@ convert_etog :: Eq a => GraphE a -> GraphG a
 convert_etog (GraphE edges) =
     let nodes = unique $ extract_nodes edges in
     GraphG nodes edges
+
+convert_gtoa :: (Eq a, Show a) => GraphG a -> GraphA a
+convert_gtoa (GraphG nodes edges) =
+    GraphA [(n, [tuplecomp e n | e <- edges, tuplein e n]) | n <- nodes]
+
+tuplecomp :: (Eq a, Show a) => (Node a, Node a) -> Node a -> Node a
+tuplecomp t n
+    | n == fst t    = snd t
+    | n == snd t    = fst t
+    | otherwise     = -- error "tuple does not contain node"
+        error ("<" ++ show t ++ "> does not contain <" ++ show n ++ ">")
+
+-- <tuplein t n> is true if <n> is in <t>
+tuplein :: Eq a => (Node a, Node a) -> Node a -> Bool
+tuplein t n
+    | n == fst t    = True
+    | n == snd t    = True
+    | otherwise     = False
 
 -- basic functionality
 nodes :: GraphG a -> [Node a]
@@ -49,7 +68,13 @@ unique [] = []
 unique (x:xs) = x:(unique [y | y <- xs, y /= x])
 
 -- -- TESTING COMPONENTS
-x = Node 'x'
-y = Node 'y'
-e = (x, y)
-g = GraphG [x, y] [e]
+b = Node 'b'
+c = Node 'c'
+d = Node 'd'
+f = Node 'f'
+g = Node 'g'
+h = Node 'h'
+k = Node 'k'
+ns = [b, c, d, f, g, h, k]
+es = [(g, h), (b, c), (b, f), (c, f), (f, k)]
+gr = GraphG ns es
