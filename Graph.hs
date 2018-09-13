@@ -10,7 +10,6 @@ data GraphE a = GraphE [Edge a] deriving Eq
 -- adjacency form
 data GraphA a = GraphA [(Node a, [Node a])] deriving Eq
 
--- TODO: convert between GraphA and the other two
 -- TODO: validation functions for these forms
 
 instance Show a => Show (Node a) where
@@ -49,9 +48,13 @@ convert_gtoa :: (Eq a, Show a) => GraphG a -> GraphA a
 convert_gtoa (GraphG nodes edges) =
     GraphA [(n, [edgecomp e n | e <- edges, edgecontains e n]) | n <- nodes]
 
--- convert_atog :: (Eq a, Show a) => GraphA a -> GraphG a
--- convert_atog (GraphA nodecons) =
---     GraphG 
+convert_atog :: (Eq a, Show a) => GraphA a -> GraphG a
+convert_atog ga = GraphG (nodesA ga) (edgesA ga)
+
+convert_etoa :: (Eq a, Show a) => GraphE a -> GraphA a
+convert_etoa = convert_gtoa . convert_etog
+convert_atoe :: (Eq a, Show a) => GraphA a -> GraphE a
+convert_atoe = convert_gtoe . convert_atog
 
 inco :: Edge a -> Node a
 inco (Edge (nx, ny)) = ny
