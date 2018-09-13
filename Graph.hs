@@ -5,9 +5,9 @@ data Node a = Node a deriving Eq
 -- graph-term form
 data GraphG a = GraphG [Node a] [(Node a, Node a)] deriving Eq
 -- edge-term form
-data GraphE a = GraphE [(Node a, Node a)] deriving (Show, Eq)
+data GraphE a = GraphE [(Node a, Node a)] deriving Eq
 -- adjacency form
-data GraphA a = GraphA [(Node a, [Node a])] deriving (Show, Eq)
+data GraphA a = GraphA [(Node a, [Node a])] deriving Eq
 -- TODO: convert between GraphA and the other two
 -- TODO: validation functions for these forms
 -- TODO: instance show (GraphE, GraphA)
@@ -17,7 +17,14 @@ instance Show a => Show (Node a) where
 
 instance Show a => Show (GraphG a) where
     show (GraphG nodes edges) = "GraphG: \n\t" ++
-        show nodes ++ "\n\t" ++ show edges
+        "Nodes: " ++ show nodes ++ "\n\tEdges: " ++ show edges
+
+instance Show a => Show (GraphE a) where
+    show (GraphE edges) = "GraphE: \n\tEdges: " ++ show edges
+
+instance Show a => Show (GraphA a) where
+    show (GraphA nodecons) = "GraphA: " ++
+        flatten ["\n\t" ++ show nc | nc <- nodecons]
 
 -- -- FUNCTIONS
 -- conversions
