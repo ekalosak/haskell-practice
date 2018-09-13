@@ -77,18 +77,27 @@ nodesG (GraphG ns es) = ns
 edgesG :: GraphG a -> [Edge a]
 edgesG (GraphG ns es) = es
 
--- nodeconsA :: GraphA a -> [(Node a, [Node a])]
--- nodeconsA (GraphA ncs) = ncs
+nodeconsA :: GraphA a -> [(Node a, [Node a])]
+nodeconsA (GraphA ncs) = ncs
 nodesA :: GraphA a -> [Node a]
 nodesA (GraphA ncs) = [fst x | x <- ncs]
--- edgesA :: GraphA a -> [Edge a]
--- edgesA (GraphA ncs) = uniqueEdgesA $ flatten
---     [[Edge (fst nc, ne) | ne <- snd nc] | nc <- ncs]
+edgesA :: Eq a => GraphA a -> [Edge a]
+edgesA (GraphA ncs) = uniqueEdgesA $ flatten
+    [[Edge (fst nc, ne) | ne <- snd nc] | nc <- ncs]
+edgesA_nonEq :: GraphA a -> [Edge a]
+edgesA_nonEq = edgeAhelper
 
 -- helpers
--- uniqueEdgesA :: [Edge a] -> [Edge a]
--- uniqueEdgesA (e:es) =
---     if 
+edgeAhelper :: GraphA a -> [Edge a]
+edgeAhelper (GraphA ncs) = flatten
+    [[Edge (fst nc, ne) | ne <- snd nc] | nc <- ncs]
+
+uniqueEdgesA :: Eq a => [Edge a] -> [Edge a]
+uniqueEdgesA [] = []
+uniqueEdgesA (e:es) =
+    if (elem e es) then ues
+    else e:ues
+    where ues = uniqueEdgesA es
 
 extract_nodes :: [Edge a] -> [Node a]
 extract_nodes [] = []
@@ -112,6 +121,7 @@ h = Node 'h'
 k = Node 'k'
 ns = [b, c, d, f, g, h, k]
 es = [Edge e | e <- [(g, h), (b, c), (b, f), (c, f), (f, k)]]
+e = es !! 1
 gg = GraphG ns es
 ga = convert_gtoa gg
 ge = convert_gtoe gg
